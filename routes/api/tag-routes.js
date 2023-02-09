@@ -23,27 +23,15 @@ router.get("/:id", (req, res) => {
   // find a single tag by its `id`
   // be sure to include its associated Product data
   Tag.findByPk(req.params.id, {
-    include: [
-      {
-        model: Product,
-        include: [Tag],
-      },
-    ],
+    include: [{ model: Product }],
   })
     .then((data) => {
-      if (data) {
-        return res.json(data);
-      } else {
-        res.status(404).json({
-          msg: "no such record",
-        });
-      }
+      res.json(data);
     })
-    .catch((err) => {
-      console.log(err);
+    .catch((error) => {
       res.status(500).json({
         msg: "an error occurred",
-        err: err,
+        error: error,
       });
     });
 });
@@ -51,16 +39,15 @@ router.get("/:id", (req, res) => {
 router.post("/", (req, res) => {
   // create a new tag
   Tag.create({
-    category_name: req.body.category_name,
+    tag_name: req.body.tag_name,
   })
     .then((data) => {
       res.status(201).json(data);
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
+    .catch((error) => {
+      res.json({
         msg: "an error occurred",
-        err: err,
+        error: error,
       });
     });
 });
@@ -78,17 +65,12 @@ router.put("/:id", (req, res) => {
     }
   )
     .then((data) => {
-      if (data[0]) {
-        return res.json(data);
-      } else {
-        return res.status(404).json({ msg: "no such record" });
-      }
+      res.status(200).json(data);
     })
-    .catch((err) => {
-      console.log(err);
+    .catch((error) => {
       res.status(500).json({
         msg: "an error occurred",
-        err: err,
+        error: error,
       });
     });
 });
