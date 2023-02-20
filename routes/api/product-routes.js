@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
     .catch((err) => {
       console.log(err);
       res.status(500).json({
-        msg: "an error occurred",
+        msg: "Server error",
         err: err,
       });
     });
@@ -26,14 +26,14 @@ router.get("/:id", (req, res) => {
         return res.json(data);
       } else {
         res.status(404).json({
-          msg: "no such record",
+          msg: "Record does not exist",
         });
       }
     })
     .catch((err) => {
       console.log(err);
       res.status(500).json({
-        msg: "an error occurred",
+        msg: "Server error",
         err: err,
       });
     });
