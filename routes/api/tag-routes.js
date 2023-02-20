@@ -1,11 +1,7 @@
 const router = require("express").Router();
 const { Tag, Product, ProductTag } = require("../../models");
 
-// The `/api/tags` endpoint
-
 router.get("/", (req, res) => {
-  // find all tags
-  // be sure to include its associated Product data
   Tag.findAll({ include: [{ model: Product }] })
     .then((data) => {
       res.json(data);
@@ -13,15 +9,13 @@ router.get("/", (req, res) => {
     .catch((err) => {
       console.log(err);
       res.status(500).json({
-        msg: "an error occurred",
+        msg: "Server error",
         err: err,
       });
     });
 });
 
 router.get("/:id", (req, res) => {
-  // find a single tag by its `id`
-  // be sure to include its associated Product data
   Tag.findByPk(req.params.id, {
     include: [{ model: Product }],
   })
@@ -30,14 +24,13 @@ router.get("/:id", (req, res) => {
     })
     .catch((error) => {
       res.status(500).json({
-        msg: "an error occurred",
+        msg: "Server error",
         error: error,
       });
     });
 });
 
 router.post("/", (req, res) => {
-  // create a new tag
   Tag.create({
     tag_name: req.body.tag_name,
   })
@@ -46,14 +39,13 @@ router.post("/", (req, res) => {
     })
     .catch((error) => {
       res.json({
-        msg: "an error occurred",
+        msg: "Server error",
         error: error,
       });
     });
 });
 
 router.put("/:id", (req, res) => {
-  // update a tag's name by its `id` value
   Tag.update(
     {
       tag_name: req.body.tag_name,
@@ -69,14 +61,13 @@ router.put("/:id", (req, res) => {
     })
     .catch((error) => {
       res.status(500).json({
-        msg: "an error occurred",
+        msg: "Server error",
         error: error,
       });
     });
 });
 
 router.delete("/:id", (req, res) => {
-  // delete on tag by its `id` value
   Tag.destroy({
     where: {
       id: req.params.id,
@@ -86,13 +77,13 @@ router.delete("/:id", (req, res) => {
       if (data) {
         return res.json(data);
       } else {
-        return res.status(404).json({ msg: "no such record" });
+        return res.status(404).json({ msg: "Record does not exist" });
       }
     })
     .catch((err) => {
       console.log(err);
       res.status(500).json({
-        msg: "an error occurred",
+        msg: "Server error",
         err: err,
       });
     });
